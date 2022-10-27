@@ -170,6 +170,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The unusual thing here is that <strong>we’re using literate programming for writing an R package</strong>. To do this, we are using the <a href="http://faculty.marshall.usc.edu/jacob-bien/litr/docs/index.html">litr</a> R package, which lets you define R packages in an R Markdown file. To generate this bookdown site, we ran the following in an R console:<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a>bookdown<span class="sc">::</span><span class="fu">render_book</span>(<span class="st">&quot;index.Rmd&quot;</span>, <span class="at">output_format =</span> litr<span class="sc">::</span><span class="fu">litr_gitbook</span>())</span></code></pre></div>
 <p>The purpose of the <code>frombookdown</code> package is simply to demonstrate the basic functionality of writing an R package as a bookdown. Its main functionality will have to do with linear regression since this will allow us to write some equations, make some relevant plots, etc.</p>
+<p>Please visit <a href="https://github.com/jacobbien/frombookdown-project">this repo</a> to see the source files.</p>
 
 </div>
 <div class="footnotes">

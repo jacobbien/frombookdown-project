@@ -29,3 +29,5 @@ bookdown::render_book("index.Rmd", output_format = litr::litr_gitbook())
 ```
 
 The purpose of the ``r params$package_name`` package is simply to demonstrate the basic functionality of writing an R package as a bookdown.  Its main functionality will have to do with linear regression since this will allow us to write some equations, make some relevant plots, etc.
+
+Please visit [this repo](https://github.com/jacobbien/frombookdown-project) to see the source files.
