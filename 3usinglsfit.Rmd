@@ -1,0 +1,35 @@
+# Using `lsfit()`
+
+Suppose we decide that we want to offer an alternative function in our package that calls `lsfit()` internally.
+
+```{r}
+#' Get the OLS solution using `lsfit()`
+#' 
+#' @param y our response, which is an n-vector
+#' @param X our data matrix, which is n by p
+#' @export
+do_least_squares_with_lsfit <- function(y, X) {
+  fit <- stats::lsfit(x = X, y = y, intercept = FALSE)
+  return(as.numeric(fit$coefficients))
+}
+```
+
+> When we import a function from another package into our own, we use the double colon to refer to that function.  We also include the following command, which will add the appropriate lines to the DESCRIPTION file:
+
+```{r}
+usethis::use_package("stats")
+```
+
+Let's see how this compares. (Note that the `x` and `y` are still in the environment.)
+
+```{r}
+betahat_lsfit <- do_least_squares_with_lsfit(y, x)
+```
+
+How do these compare?
+
+```{r}
+range(betahat_lsfit - betahat)
+```
+
+Ok great.

@@ -1,0 +1,35 @@
+# Package setup
+
+Every R package needs a DESCRIPTION file, so we start by specifying this information:
+
+```{r package-setup, message=FALSE, results='hide'}
+usethis::create_package(
+  path = ".",
+  fields = list(
+    Package = params$package_name,
+    Version = "0.0.0.9000",
+    Title = "A Package That Does Least Squares",
+    Description = "This package does least squares.",
+    `Authors@R` = person(
+      given = "Jacob",
+      family = "Bien",
+      email = "jbien@usc.edu",
+      role = c("aut", "cre")
+      )
+  )
+)
+usethis::use_mit_license(copyright_holder = "J. Bien")
+```
+
+You can see that we're using functions from the [usethis](https://usethis.r-lib.org/) package.
+
+Although it's not required, it can be nice to add some package-level documentation.  This is what will show up when someone types `package?<your-package-name>` in the console.
+
+```{package_doc}
+#' A Package That Does Least Squares
+#'
+#' This package does least squares.  But what's actually interesting about it is that it was defined as a `bookdown` using the `litr` package.
+#' 
+#' @docType package
+#' @seealso `do_least_squares`
+```

@@ -1,0 +1,96 @@
+# Linear regression
+
+Suppose we have a response vector $y\in\real^n$ and a data matrix $X\in\real^{n\times p}$.
+
+We want to find the solution to the problem
+
+$$
+\min_{\beta\in\real^p}\|y-X\beta\|^2
+$$
+
+We'll assume that $X$ is full rank with $n > p$.  We know that the solution is given by
+
+$$
+\hat\beta=(X^TX)^{-1}X^Ty.
+$$
+
+Our main function does exactly that!
+
+```{r}
+#' Get the OLS solution
+#' 
+#' @param y our response, which is an n-vector
+#' @param X our data matrix, which is n by p
+#' @export
+do_least_squares <- function(y, X) {
+  if(nrow(X) != length(y))
+    stop("The number of rows of X must match the length of y.")
+  as.numeric(solve(crossprod(X), crossprod(X, y)))
+}
+```
+
+> Let me interject here to explain something about `litr`.  Code chunks whose first line starts with `#'` are added to the package.  So the above code chunk will end up in the `params$package_name` package whereas the next code chunk will not.
+
+Let's see how this works!  We start by simulating some data:
+
+```{r simulate-data}
+set.seed(123)
+n <- 100
+p <- 1
+x <- cbind(1, matrix(rnorm(n*p), n, p))
+beta_star <- c(2, 0.5)
+sigma <- 0.1
+y <- x %*% beta_star + sigma * rnorm(n)
+```
+
+Let's call our function on this simulated data and make a plot:
+
+```{r}
+betahat <- do_least_squares(y, x)
+```
+
+> We can see here a nice feature of `litr`: Anytime we refer to (or use) a function defined in the bookdown, it becomes a hyperlink that will take the reader to the function's definition.
+
+
+```{r}
+plot(x[, 2], y)
+abline(betahat[1], betahat[2], col = 2, lwd=2)
+```
+
+Ok, this looks good.  But let's see how our solution compares to `lm`'s answer.
+
+```{r}
+fit_lm <- lm(y ~ x[, 2])
+```
+
+The coefficients from `lm` are the following:
+
+```{r}
+fit_lm$coefficients
+```
+
+We compare that to the coefficients from `do_least_squares()`:
+
+```{r}
+betahat
+```
+
+Great.  Let's make an actual test out of this example and put it in our package.  Rather than repeat ourselves with the simulation code, we will simply refer to the code chunk above.
+
+```{r}
+testthat::test_that("do_least_squares() works", {
+  <<simulate-data>>
+  fit_lm <- lm(y ~ x[, 2])
+  # do lm and our function give the same coefficient vector?
+  testthat::expect_equal(do_least_squares(y, x),
+                         as.numeric(fit_lm$coefficients))
+  # do we get the desired error when there is a length mismatch?
+  testthat::expect_error(do_least_squares(y[-1], x), "must match")
+})
+```
+
+> Code chunks that have one or more lines starting with `test_that(` (or `testthat::test_that(`) are added to the package as tests.
+
+Since this test is now in our R package, it will be run (for example) when we run `R CMD check` on our package.
+
+
