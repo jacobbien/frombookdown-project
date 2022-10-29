@@ -3,6 +3,8 @@ title: "Creating the ``r params$package_name`` R package"
 author: "Jacob Bien"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
+knit: bookdown::render_book
+output: litr::litr_gitbook
 params:
   package_name: "frombookdown" # <-- change this to your package name
   package_parent_dir: "." # <-- relative to this file's location
@@ -25,7 +27,7 @@ This idea of writing a human-oriented document that is your codebase (rather tha
 The unusual thing here is that **we're using literate programming for writing an R package**.  To do this, we are using the [litr](http://faculty.marshall.usc.edu/jacob-bien/litr/docs/index.html) R package, which lets you define R packages in an R Markdown file.  To generate this bookdown site, we ran the following in an R console:^[For a "normal" bookdown, we would use the same command but with a non-`litr`  `output_format` such as `bookdown::gitbook()`.]
 
 ```{r, eval = FALSE}
-bookdown::render_book("index.Rmd", output_format = litr::litr_gitbook())
+litr::render("index.Rmd")
 ```
 
 The purpose of the ``r params$package_name`` package is simply to demonstrate the basic functionality of writing an R package as a bookdown.  Its main functionality will have to do with linear regression since this will allow us to write some equations, make some relevant plots, etc.
